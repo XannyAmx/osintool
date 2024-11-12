@@ -1,6 +1,5 @@
-import dns.resolver, whois, signal, sys, argparse, os, time, requests, json
+import dns.resolver, whois, signal, sys, argparse, os, time, requests, json, dns, threading, tqdm
 from termcolor import colored
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from waybackpy import WaybackMachineCDXServerAPI
 
@@ -39,8 +38,7 @@ class Osintool():
         self.key = key
         self.file = file
 
-        self.subdomains = []
-        self.subdomains.append(principalDomain)
+        self.subdomains = [principalDomain]
         self.recordTypes = ["A", "AAAA", "CNAME", "MX", "NS", "SOA", "TXT"]
         self.ipServersDomain = ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1", "9.9.9.9", "149.112.112.112", "208.67.222.222", "208.67.220.220", "84.200.69.80", "84.200.70.40"]
         self.resolverDNS = self.setup_resolver(2.5)
@@ -51,6 +49,7 @@ class Osintool():
         self.nameFileImportant = []
         self.filesURL = []
         self.filesTotal = 0
+        self.results = []
 
     def load_file(self, path):
         try:
@@ -68,9 +67,21 @@ class Osintool():
         return resolver
 
     def scanSubdomains(self):
-        with ThreadPoolExecutor(max_workers=500) as executor:
-            results = list(executor.map(self._scan_domain, self.wordlistSubdomain))
-        self._present_results(results)
+        self.addSummary(f"[+] Subdomains found:", self.principalDomain)
+        hilos = []
+        for domain in tqdm.tqdm(self.wordlistSubdomain, desc=colored("Subdomains scanning","magenta")):
+            hilo = threading.Thread(target=self._scan_domain, args=(domain,))
+            hilos.append(hilo)
+            hilo.start()
+        for hilo in hilos:
+            hilo.join()
+        if self.results:
+            for result in self.results:
+                self.subdomains.append(result[0])
+                self.addSummary(f"\n\t{result[0]}", self.principalDomain)
+                for add in result[1]:
+                    self.addSummary(f"\n\t\t{add}", self.principalDomain)
+        self.addSummary(f"\n\n",self.principalDomain)
 
     def dnsEnumeration(self, domain):
         resolver = dns.resolver.Resolver()
@@ -78,11 +89,11 @@ class Osintool():
         for recordType in self.recordTypes:
             try:
                 answers = resolver.resolve(domain, recordType)
+                self.addSummary(f"\n\tRecord '{recordType}' of the {domain}:", domain)
+                for data in answers:
+                    self.addSummary(f"\n\t\t{data}", domain)
             except:
                 continue
-            self.addSummary(f"\n\tRecord '{recordType}' of the {domain}:", domain)
-            for data in answers:
-                self.addSummary(f"\n\t\t{data}", domain)
 
     def whoisEnumeration(self, domain):
         response = whois.whois(domain)
@@ -153,23 +164,9 @@ class Osintool():
         full_domain = f"{subdomain}.{self.principalDomain}"
         try:
             answers = self.resolverDNS.resolve(full_domain, "A")
-            return (full_domain, [answer.address for answer in answers])
-        except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.resolver.Timeout):
-            return None
-        
-    def _present_results(self, results):
-        if not results or all(result is None for result in results):
+            self.results.append([full_domain, [answer.address for answer in answers]])
+        except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.resolver.Timeout, dns.resolver.NoNameservers):
             pass
-        else:
-            self.addSummary(f"[+] Subdomains found:", self.principalDomain)
-            for result in results:
-                if result:
-                    domain, addresses = result
-                    self.subdomains.append(domain)
-                    self.addSummary(f"\n\t{domain}", self.principalDomain)
-                    for add in addresses:
-                        self.addSummary(f"\n\t\t{add}", self.principalDomain)
-            self.addSummary(f"\n\n",self.principalDomain)
     
     def downloadFiles(self):
         if not os.path.exists(F"./{self.principalDomain}"):
@@ -198,6 +195,7 @@ class Osintool():
         if not os.path.exists(F"./{self.principalDomain}"):
             os.mkdir(f"./{self.principalDomain}")
         self.scanSubdomains()
+        print(colored("\n[>] Generating summaries of each domain...\n","magenta"))
         for domain in self.subdomains:
             self.dnsEnumeration(domain)
             self.whoisEnumeration(domain)
@@ -236,13 +234,15 @@ def parseDomain(domainsArg):
 
 def banner():
     print(colored("""
-   ____      _____    _____      __      _   ________     ____       ____     _____
-  / __ \    / ____\  (_   _)    /  \    / ) (___  ___)   / __ \     / __ \   (_   _)
- / /  \ \  ( (___      | |     / /\ \  / /      ) )     / /  \ \   / /  \ \    | |
-( ()  () )  \___ \     | |     ) ) ) ) ) )     ( (     ( ()  () ) ( ()  () )   | |
-( ()  () )      ) )    | |    ( ( ( ( ( (       ) )    ( ()  () ) ( ()  () )   | |   __
- \ \__/ /   ___/ /    _| |__  / /  \ \/ /      ( (      \ \__/ /   \ \__/ /  __| |___) )
-  \____/   /____/    /_____( (_/    \__/       /__\      \____/     \____/   \________/
+ .s5SSSs.  .s5SSSs.  s.  .s    s.  .s5SSSSs. .s5SSSs.  .s5SSSs.  .s
+      SS.       SS. SS.       SS.    SSS          SS.       SS.
+sS    S%S sS    `:; S%S sSs.  S%S    S%S    sS    S%S sS    S%S sS
+SS    S%S SS        S%S SS`S. S%S    S%S    SS    S%S SS    S%S SS
+SS    S%S `:;;;;.   S%S SS `S.S%S    S%S    SS    S%S SS    S%S SS
+SS    S%S       ;;. S%S SS  `sS%S    S%S    SS    S%S SS    S%S SS
+SS    `:;       `:; `:; SS    `:;    `:;    SS    `:; SS    `:; SS
+SS    ;,. .,;   ;,. ;,. SS    ;,.    ;,.    SS    ;,. SS    ;,. SS    ;,.
+`:;;;;;:' `:;;;;;:' ;:' :;    ;:'    ;:'    `:;;;;;:' `:;;;;;:' `:;;;;;:'
 
 Author: Xanny A (Daniel Martìnez)""", "red"))
 
@@ -262,7 +262,7 @@ def main():
         for domain in domains:
             domain = Osintool(str(domain).strip(), cx=args.cx, key=args.key, file=args.file)
             domain.googleDork()
-    print(colored(f"\n[>] Happy OSINT  ;)","red"))
+    print(colored(f"\n[>] Happy OSINT  ;)\n","red"))
 
 if __name__ == "__main__":
     main()
