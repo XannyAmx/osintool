@@ -25,8 +25,8 @@ Parameters:
     -t <0...999> (ONLY WITH USE OF -o, maximum search time in years)  
     -w wordlist.txt (ONLY WITH USE OF -o, wordlist of subdomains)  
     -f <type file> (ONLY WITH USE OF -g, type of file to be searched)  
-    -k <key> (Google API key)  
-    -c <cx> (Programmable search engine)  
+    -k <key> (ONLY WITH USE OF -g, Google API key)  
+    -c <cx> (ONLY WITH USE OF -g, Programmable search engine)  
 
 # Examples of use
 
@@ -34,8 +34,9 @@ Parameters:
 ```
 python3 osintool.py -o -d example.com -t 10 -w wordlist.txt
 ```
-![image](https://github.com/user-attachments/assets/5b21a81f-476a-46bb-ae0f-6236c59153ca)
-
+![image](https://github.com/user-attachments/assets/9c643a90-5076-45a0-97de-f3b3d8e10cb4)
+Example of main domain summary:
+![image](https://github.com/user-attachments/assets/0a048150-ee25-4414-b161-b8f9996102a6)
   Google search:
  ```
  python3 osintool.py -g -d example.com -f pdf -k <key> -c <cx>
