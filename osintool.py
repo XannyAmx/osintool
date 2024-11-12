@@ -12,7 +12,7 @@ def getArguments():
     parse.add_argument('-f', '--file', dest="file", help="Type of file to search")
     parse.add_argument('-d', '--domain', dest="domain", help="Main domain")
     parse.add_argument('-w', '--wordlist', dest="wordlist", help="Wordlist of subdomains")
-    parse.add_argument('-t', '--time', dest="time", help="Time of collection delay")
+    parse.add_argument('-t', '--time', dest="time", help="Time period for collection of archives in years")
     args = parse.parse_args()
 
     if args.osint and args.domain and args.wordlist and args.time:
