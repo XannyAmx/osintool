@@ -40,7 +40,7 @@ python3 osintool.py -o -d example.com -t 10 -w wordlist.txt
  ```
  python3 osintool.py -g -d example.com -f pdf -k <key> -c <cx>
 ```
-![image](https://github.com/user-attachments/assets/3acc61aa-5c46-46d6-9e26-8df52659949c)
+![image](https://github.com/user-attachments/assets/bd43e67b-531a-46fd-b904-1393bca85ccf)
 
 # Disclaimer
 This program is published to be used for educational purposes. I am not responsible for any misuse of this project.
