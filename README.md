@@ -16,8 +16,7 @@ pip install -r requirements.txt
 
 # Using Osintool
 
-![image](https://github.com/user-attachments/assets/edeb8cec-d377-4be8-967a-1a8383548d63)
-
+![image](https://github.com/user-attachments/assets/9689b405-27a5-4996-8ffe-8088931d1f2c)
 
 Parameters:    
     -o (Wayback Machine search)  
@@ -41,8 +40,7 @@ python3 osintool.py -o -d example.com -t 10 -w wordlist.txt
  ```
  python3 osintool.py -g -d example.com -f pdf -k <key> -c <cx>
 ```
-![image](https://github.com/user-attachments/assets/7697733b-5115-4528-9385-e5e2783e9d9a)
-
+![image](https://github.com/user-attachments/assets/3acc61aa-5c46-46d6-9e26-8df52659949c)
 
 # Disclaimer
 This program is published to be used for educational purposes. I am not responsible for any misuse of this project.
