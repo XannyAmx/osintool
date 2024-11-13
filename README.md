@@ -10,9 +10,9 @@ Osintool is specially designed to be installed and run on a Linux operating syst
 ```
 git clone https://github.com/xannyamx/osintool.git
 cd osintool
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 chmod +x osintool.py
-python osintool.py
+python3 osintool.py
 ```
 
 # Using Osintool
