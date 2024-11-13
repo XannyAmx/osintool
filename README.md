@@ -33,7 +33,7 @@ Parameters:
 
   Wayback Machine search:
 ```
-python3 osintool.py -o -d example.com -t 10 -w wordlist.txt
+python3 osintool.py -o -d example.com -t 2 -w wordlist.txt
 ```
 ![image](https://github.com/user-attachments/assets/9c643a90-5076-45a0-97de-f3b3d8e10cb4)
 Example of main domain summary:
