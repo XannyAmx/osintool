@@ -40,7 +40,7 @@ Example of main domain summary:
 ![image](https://github.com/user-attachments/assets/0a048150-ee25-4414-b161-b8f9996102a6)
   Google search:
  ```
- python3 osintool.py -g -d example.com -f pdf -k <key> -c <cx>
+ python3 osintool.py -g -k <key> -c <cx> -d example.com -f pdf
 ```
 ![image](https://github.com/user-attachments/assets/bd43e67b-531a-46fd-b904-1393bca85ccf)
 
