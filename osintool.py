@@ -43,8 +43,8 @@ class Osintool():
         self.ipServersDomain = ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1", "9.9.9.9", "149.112.112.112", "208.67.222.222", "208.67.220.220", "84.200.69.80", "84.200.70.40"]
         self.resolverDNS = self.setup_resolver(2.5)
         self.userAgent = "Mozilla/5.0 (Windows NT 5.1; rv:40.0) Gecko/20100101 Firefox/40.0"
-        self.extensions = ["pdf","doc","docx","ppt","xls","xlsx","txt","jpg","png","jpeg", "sql","log"]
-        self.importantData = ["pdf","doc","docx","ppt","xls","xlsx", "sql","log"]
+        self.extensions = ["pdf","doc","docx","ppt","xls","xlsx","txt","jpg","png","jpeg", "sql","log","csv","pps","pptx","psw","sxw","rtf","odt"]        
+        self.importantData = ["pdf","doc","docx","ppt","xls","xlsx", "sql","log","csv","pps","pptx","psw","sxw","rtf","odt"]
         self.filesDownloadsTotal = 0
         self.nameFileImportant = []
         self.filesURL = []
