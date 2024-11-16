@@ -7,11 +7,10 @@ This framework can be used to search for subdomains of a main domain. In additio
 # Installation
 
 Osintool is specially designed to be installed and run on a Linux operating system.
-```
+```python
 git clone https://github.com/xannyamx/osintool.git
 cd osintool
 pip3 install -r requirements.txt
-chmod +x osintool.py
 python3 osintool.py
 ```
 
