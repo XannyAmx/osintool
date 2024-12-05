@@ -2,3 +2,4 @@ dnspython
 python-whois
 waybackpy
 tqdm
+termcolor
