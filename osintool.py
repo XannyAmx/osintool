@@ -244,7 +244,7 @@ SS    `:;       `:; `:; SS    `:;    `:;    SS    `:; SS    `:; SS
 SS    ;,. .,;   ;,. ;,. SS    ;,.    ;,.    SS    ;,. SS    ;,. SS    ;,.
 `:;;;;;:' `:;;;;;:' ;:' :;    ;:'    ;:'    `:;;;;;:' `:;;;;;:' `:;;;;;:'
 
-Author: Xanny A (Daniel Martìnez)\n""", "red"))
+Author: Xanny A (Daniel Martínez)\n""", "red"))
 
 def main():
     banner()
