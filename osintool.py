@@ -56,7 +56,7 @@ class Osintool():
             with open(path, 'r', encoding="latin-1") as file:
                 return file.read().splitlines()
         except FileNotFoundError:
-            print(colored(f"\t[!] Error: The file could not be opened: {path}","red"))
+            print(colored(f"[!] Error: The file could not be opened: {path}","red"))
             sys.exit(1)
 
     def setup_resolver(self, timeOutDNS):
@@ -120,7 +120,7 @@ class Osintool():
                     self.addSummary(f"\n\n[+] Snapshot of the domain {domain}\n\t{snapshot.archive_url}", domain)
                     print(colored(f"[+] Snapshot of the {domain} domain completed (./{self.principalDomain}/Snapshot_{domain}.html)", "green"))
             except Exception as e:
-                print(colored(f"\t[!] Snapshot error: {e}","red"))
+                print(colored(f"[!] Snapshot error: {e}","red"))
         except:
             pass
 
@@ -156,7 +156,7 @@ class Osintool():
             self.nameFileImportant = []
 
         except Exception as e:
-            print(colored(f"\t[!] Error in API Wayback Machine: {e}","red"))
+            print(colored(f"[!] Error in API Wayback Machine: {e}","red"))
 
         print(colored(f"[+] Summary of the {domain} domain completed (./{self.principalDomain}/Summary_{domain}.txt)", "green"))
 
