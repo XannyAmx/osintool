@@ -1,3 +1,4 @@
 dnspython
 python-whois
 waybackpy
+tqdm
