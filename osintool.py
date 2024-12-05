@@ -69,7 +69,7 @@ class Osintool():
     def scanSubdomains(self):
         self.addSummary(f"[+] Subdomains found:", self.principalDomain)
         hilos = []
-        for domain in tqdm.tqdm(self.wordlistSubdomain, desc=colored("Subdomains scanning","magenta")):
+        for domain in tqdm.tqdm(self.wordlistSubdomain, desc=colored(f"{self.principalDomain} domain scan","magenta")):
             hilo = threading.Thread(target=self._scan_domain, args=(domain,))
             hilos.append(hilo)
             hilo.start()
